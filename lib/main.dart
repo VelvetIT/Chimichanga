@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:tv_show/screens/Favorites.dart';
+import 'package:tv_show/screens/List.dart';
 import 'package:tv_show/sql/sql_helper.dart';
 import 'screens/TvShowScreen.dart';
 import 'package:flutter/foundation.dart';
@@ -32,6 +33,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = await SQLHelper.db();
   bool isDatabaseCreated = await SQLHelper.isDatabaseCreated();
+
   if (!isDatabaseCreated) {
     await SQLHelper.createTables(database);
     await SQLHelper.populateDatabase();
@@ -100,7 +102,11 @@ class _MyAppState extends State<MyApp> {
                         backgroundColor: isDark ? colorBackGround : null,
                         title: Center(
                           child: Text(
-                            _selectedIndex == 0 ? 'Tv Shows' : 'Favorites',
+                            _selectedIndex == 0
+                                ? "TV Shows"
+                                : _selectedIndex == 1
+                                    ? "Favorites"
+                                    : "Listas",
                           ),
                         ),
                         actions: [
@@ -160,7 +166,12 @@ class _MyAppState extends State<MyApp> {
             body: PageView(
               physics: BouncingScrollPhysics(),
               children: <Widget>[
-                _selectedIndex == 0 ? TvShow() : Favorites(),
+                // _selectedIndex == 0 ? TvShow() : Favorites(),
+                _selectedIndex == 0
+                    ? TvShow()
+                    : _selectedIndex == 1
+                        ? Favorites()
+                        : SharedList(),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
@@ -171,6 +182,8 @@ class _MyAppState extends State<MyApp> {
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.favorite), label: 'Favorites'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.article_sharp), label: 'Shared List'),
               ],
               currentIndex: _selectedIndex,
               selectedItemColor:

@@ -23,9 +23,11 @@ class TvShowState extends State<TvShow> {
 
   Future<void> _loadData() async {
     final items = await SQLHelper.getItems();
-    setState(() {
-      _tvShows = items;
-    });
+    if (mounted) {
+      setState(() {
+        _tvShows = items;
+      });
+    }
   }
 
   @override
