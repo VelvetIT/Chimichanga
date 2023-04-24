@@ -131,6 +131,8 @@ class FavoritesState extends State<Favorites> {
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
+                Provider.of(context)<ScreenModel>(context, listen: false)
+                    .isFullScreen = true;
               },
               child: const Text(
                 'Cancel',
@@ -207,8 +209,8 @@ class FavoritesState extends State<Favorites> {
                     onPressed: () {
                       Navigator.pop(context);
 
-                      Provider.of(context)<ScreenModel>(context).isFullScreen =
-                          true;
+                      Provider.of(context)<ScreenModel>(context, listen: false)
+                          .isFullScreen = true;
                     },
                     child: const Text(
                       'Cancel',
@@ -405,20 +407,24 @@ class FavoritesState extends State<Favorites> {
             bubblesSize: 75,
             animationDuration: const Duration(milliseconds: 1500),
             bubblesColor: BubblesColor(
-              dotPrimaryColor: Provider.of<ScreenModel>(context).colorTheme,
+              dotPrimaryColor:
+                  Provider.of<ScreenModel>(context, listen: false).colorTheme,
               dotSecondaryColor: Colors.white,
             ),
             likeBuilder: (isTapped) {
               return IconTheme(
                   data: IconThemeData(
-                    color: Provider.of<ScreenModel>(context).colorTheme,
+                    color: Provider.of<ScreenModel>(context, listen: false)
+                        .colorTheme,
                     size: 30,
                   ),
                   child: Stack(
                     children: [
                       Icon(Icons.favorite,
                           size: 30,
-                          color: Provider.of<ScreenModel>(context).colorTheme),
+                          color:
+                              Provider.of<ScreenModel>(context, listen: false)
+                                  .colorTheme),
                       const Positioned(
                         bottom: 1.0,
                         top: 15.0,

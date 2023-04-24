@@ -41,6 +41,7 @@ class TvShowState extends State<TvShow> {
           // appBar: MainAppBar(),
           body: ListView.builder(
             itemCount: _tvShows.length,
+            // shrinkWrap: true,
             itemBuilder: (context, index) {
               return Slidable(
                 key: Key(_tvShows[index].toString()),
